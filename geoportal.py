@@ -52,7 +52,7 @@ def obtener_serie_nivel(codigo_estacion, desde, hasta, calidad=1, timeout=30):
 Consulta los niveles registrados por una estación de CORNARE.
 """
 
-```
+
 url = f"{API_BASE_URL}/{codigo_estacion}/nivel"
 
 params = {
@@ -86,14 +86,14 @@ try:
 
 except requests.exceptions.RequestException as e:
     return None, f"Error de red: {e}"
-```
+
 
 def obtener_todas_las_paginas(datos_json, timeout=30):
 """
 Recorre todas las páginas retornadas por la API.
 """
 
-```
+
 registros = list(datos_json.get("values", []))
 siguiente_url = datos_json.get("next")
 
@@ -120,7 +120,7 @@ while siguiente_url:
     siguiente_url = pagina.get("next")
 
 return registros
-```
+
 
 # ------------------------------------------------------------------
 
@@ -132,7 +132,7 @@ def detectar_coordenadas(datos_json):
 """
 Busca latitud y longitud dentro de la respuesta de la API.
 
-```
+
 Si no existen, utiliza como referencia las coordenadas
 de la Institución Universitaria Pascual Bravo.
 """
@@ -166,7 +166,7 @@ if lat is not None and lon is not None:
         pass
 
 return LAT_DEFECTO, LON_DEFECTO, False
-```
+
 
 # ------------------------------------------------------------------
 
@@ -178,7 +178,7 @@ def detectar_outliers(df):
 """
 Detecta valores atípicos mediante el método IQR.
 
-```
+
 También se consideran inválidos los niveles negativos.
 """
 
@@ -200,7 +200,7 @@ outliers = (
 )
 
 return outliers
-```
+
 
 # ------------------------------------------------------------------
 
@@ -214,7 +214,7 @@ Estima cuántos registros hacen falta según
 la frecuencia típica de medición.
 """
 
-```
+
 if df.empty or len(df) < 2:
     return 0
 
@@ -240,7 +240,7 @@ esperados = len(rango_completo)
 huecos = esperados - len(df)
 
 return max(0, int(huecos))
-```
+
 
 # ------------------------------------------------------------------
 
@@ -252,7 +252,7 @@ def calcular_indice_calidad(df):
 """
 Índice de calidad entre 0 y 100.
 
-```
+
 70 % = completitud de la serie
 30 % = datos sin valores atípicos
 """
@@ -299,7 +299,7 @@ return (
     huecos,
     int(es_outlier.sum())
 )
-```
+
 
 # ------------------------------------------------------------------
 
@@ -326,7 +326,7 @@ st.divider()
 
 with st.sidebar:
 
-```
+
 st.header("⚙️ Configuración")
 
 st.write(
@@ -387,7 +387,7 @@ st.link_button(
     f"https://marco.cornare.gov.co/geoportal/{codigo_estacion}",
     use_container_width=True
 )
-```
+
 
 # ------------------------------------------------------------------
 
@@ -421,7 +421,6 @@ f"{fecha_desde} → {fecha_hasta}"
 
 if consultar:
 
-```
 if fecha_desde_input > fecha_hasta_input:
     st.error(
         "❌ La fecha inicial no puede ser posterior "
